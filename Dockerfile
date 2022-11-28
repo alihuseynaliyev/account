@@ -1,16 +1,5 @@
-FROM --platform=linux/arm64 openjdk:11 AS build
+FROM openjdk:11.0.7-jre-slim
 
+COPY target/account-0.0.1-SNAPSHOT.jar account-0.0.1-SNAPSHOT.jar
 
-COPY pom.xml mvnw ./
-COPY . .
-
-RUN ./mvnw dependency:resolve
-
-COPY src src
-RUN ./mvnw package
-
-
-FROM --platform=linux/arm64 openjdk:11
-WORKDIR account
-COPY --from=build target/*.jar account.jar
-ENTRYPOINT ["java", "-jar", "account.jar"]
+ENTRYPOINT ["java","-jar","/account-0.0.1-SNAPSHOT.jar"]
